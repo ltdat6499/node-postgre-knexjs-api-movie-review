@@ -1,0 +1,33 @@
+{
+  "name": "postgre-knexjs-api-movie-review",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ltdat6499/node-postgre-knexjs-api-movie-review.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ltdat6499/node-postgre-knexjs-api-movie-review/issues"
+  },
+  "homepage": "https://github.com/ltdat6499/node-postgre-knexjs-api-movie-review#readme",
+  "dependencies": {
+    "apollo-server-koa": "^2.18.2",
+    "dotenv": "^8.2.0",
+    "koa": "^2.13.0",
+    "koa-body-parser": "^1.1.2",
+    "koa-bodyparser": "^4.3.0",
+    "koa-cors": "0.0.16",
+    "koa-knex": "^0.7.5",
+    "koa-morgan": "^1.0.1",
+    "koa-pg": "^1.0.0",
+    "koa-router": "^9.4.0",
+    "npx": "^10.2.2",
+    "typescript": "^4.0.3"
+  }
+}
