@@ -1,5 +1,4 @@
 'use strict';
-const knex = require('../../knexfile');
 
 exports.up = async (knex) => {
     // return knex.schema.createTable('todos', (table) => {
