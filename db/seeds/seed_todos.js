@@ -1,12 +1,12 @@
 'use strict'
+const _ = require('../../configs/constrant')
 const knex = require('../../knexfile');
 require('dotenv').config()
 
-const { POSTGRES_TABLE } = process.env
-exports.seed = function (knex, Promise) {
-  return knex(POSTGRES_TABLE).del()
+exports.seed = function (knex) {
+  return knex(_.TBL_TODOS).del()
     .then(function () {
-      return knex(POSTGRES_TABLE).insert([
+      return knex(_.TBL_TODOS).insert([
         {
           message: 'go to store for milk',
           status: false,

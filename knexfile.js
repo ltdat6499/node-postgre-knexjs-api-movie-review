@@ -1,51 +1,46 @@
-// Update with your config settings.
-require('dotenv').config()
-
-const { CLIENT, POSTGRES_USER, POSTGRES_PASSWORD, 
-        POSTGRES_DB, DB_HOST, MIGRATIONS_PATH_FROM_DIR, 
-        SEED_PATH_FROM_DIR } = process.env
+const _ = require('./configs/constrant')
 
 module.exports = {
   development: {
-    client: CLIENT,
+    client: _.PG_CLIENT,
     connection: {
-      host: DB_HOST,
-      user: POSTGRES_USER,
-      password: POSTGRES_PASSWORD,
-      database: POSTGRES_DB,
+      host: _.PG_HOST,
+      user: _.PG_USER,
+      password: _.PG_PASSWORD,
+      database: _.PG_DB,
       charset: 'utf8'
     },
     migrations: {
-      directory: __dirname + MIGRATIONS_PATH_FROM_DIR,
+      directory: __dirname + _.MIGRATIONS
     },
     seeds: {
-      directory: __dirname + SEED_PATH_FROM_DIR
+      directory: __dirname + _.SEED
     }
   },
   staging: {
     client: 'postgresql',
     connection: {
-      database: POSTGRES_DB,
-      user: POSTGRES_USER,
-      password: POSTGRES_PASSWORD
+      database: _.PG_DB,
+      user: _.PG_USER,
+      password: _.PG_PASSWORD
     },
     pool: {
       min: 2,
       max: 10
     },
     migrations: {
-      directory: __dirname + MIGRATIONS_PATH_FROM_DIR,
+      directory: __dirname + _.MIGRATIONS
     },
     seeds: {
-      directory: __dirname + SEED_PATH_FROM_DIR
+      directory: __dirname + _.SEED
     }
   },
   production: {
     client: 'postgresql',
     connection: {
-      database: POSTGRES_DB,
-      user: POSTGRES_USER,
-      password: POSTGRES_PASSWORD
+      database: _.PG_DB,
+      user: _.PG_USER,
+      password: _.PG_PASSWORD
     },
     pool: {
       min: 2,
@@ -55,4 +50,4 @@ module.exports = {
       tableName: 'knex_migrations'
     }
   }
-};
+}

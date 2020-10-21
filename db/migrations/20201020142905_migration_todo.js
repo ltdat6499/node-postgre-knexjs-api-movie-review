@@ -10,7 +10,7 @@ exports.up = async (knex) => {
         CREATE TABLE todos (
         id serial PRIMARY KEY,
         message VARCHAR ( 100 ) NOT NULL,
-        status Boolean NOT NULL)`
+        status Boolean NOT NULL DEFAULT FALSE)`
     )
     await knex.raw(`
         ALTER TABLE "todos" ADD COLUMN created_at varchar(255) 
