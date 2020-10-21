@@ -17,17 +17,14 @@
   },
   "homepage": "https://github.com/ltdat6499/node-postgre-knexjs-api-movie-review#readme",
   "dependencies": {
-    "apollo-server-koa": "^2.18.2",
+    "@koa/cors": "^3.1.0",
     "dotenv": "^8.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^0.21.6",
     "koa": "^2.13.0",
-    "koa-body-parser": "^1.1.2",
     "koa-bodyparser": "^4.3.0",
-    "koa-cors": "0.0.16",
-    "koa-knex": "^0.7.5",
-    "koa-morgan": "^1.0.1",
-    "koa-pg": "^1.0.0",
+    "koa-jwt": "^4.0.0",
     "koa-router": "^9.4.0",
-    "npx": "^10.2.2",
-    "typescript": "^4.0.3"
+    "pg": "^8.4.1"
   }
 }
