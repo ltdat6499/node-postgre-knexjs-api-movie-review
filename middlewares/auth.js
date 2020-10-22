@@ -8,21 +8,18 @@ module.exports = async (ctx, next) => {
         let token = auth.split(" ")[1]
         try {
             const isAuth = await jwtToken.verify(token, _.JWT_KEY, { algorithm: "HS256" })
-            if (!isAuth) {
-                ctx.status = 403
-                return ctx.body = {
-                    message: 'Not Authorized'
-                }
-            }
             await next()
         }
         catch (error) {
-            console.log(error);
+            ctx.status = 403
+            return ctx.body = {
+                message: 'Error token'
+            }
         }
     } else {
         ctx.status = 401
         ctx.body = {
-            message: 'Not Authorized'
+            message: 'Token required'
         }
     }
 }

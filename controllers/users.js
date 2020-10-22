@@ -16,6 +16,10 @@ const login = async (ctx) => {
         ctx.body.message = "...Authentication failed"
     }
     ctx.status = 200
+    console.log(jwtToken.sign(
+        { "myPayload": "myPayload" },
+        'fakecode',
+        { algorithm: "HS256" }))
     return ctx.body = {
         token: jwtToken.sign(
             { "myPayload": "myPayload" },
