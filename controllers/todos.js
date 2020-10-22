@@ -3,10 +3,12 @@ const db = require('../configs/database-connect')
 const todos = () => db(_.TBL_TODOS)
 
 const getAll = async (ctx) => {
+    console.log(ctx)
     ctx.body = await
         todos()
             .select()
             .orderBy(_.PRIMARY_KEY)
+            console.log(ctx.body)
 }
 const create = async (ctx) => {
     const { message } = ctx.request.body

@@ -5,9 +5,6 @@ const users = () => db(_.TBL_USERS)
 
 const login = async (ctx) => {
     const { username, password } = ctx.request.body
-    console.log(
-        "sdsadsadsadsadasdasdas"
-    )
     const resultId = await
         users()
             .select('id')
@@ -22,7 +19,7 @@ const login = async (ctx) => {
     return ctx.body = {
         token: jwtToken.sign(
             { "myPayload": "myPayload" },
-            PRIVATE_KEY,
+            _.JWT_KEY,
             { algorithm: "HS256" }),
         message: "Successfully logged in!"
     }
