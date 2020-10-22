@@ -5,13 +5,16 @@ const users = () => db(_.TBL_USERS)
 
 const login = async (ctx) => {
     const { username, password } = ctx.request.body
-    const id = await
+    console.log(
+        "sdsadsadsadsadasdasdas"
+    )
+    const resultId = await
         users()
-            .select({ id })
+            .select('id')
             .where({ username })
             .andWhere({ password })
             .first()
-    if (!id) {
+    if (!resultId) {
         ctx.status = 401
         ctx.body.message = "...Authentication failed"
     }
