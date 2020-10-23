@@ -19,11 +19,15 @@
   "dependencies": {
     "@koa/cors": "^3.1.0",
     "dotenv": "^8.2.0",
+    "graphql": "^15.3.0",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.21.6",
     "koa": "^2.13.0",
     "koa-bodyparser": "^4.3.0",
+    "koa-graphql": "^0.8.0",
     "koa-router": "^9.4.0",
+    "lodash": "^4.17.20",
+    "passport-jwt": "^4.0.0",
     "pg": "^8.4.1"
   }
 }

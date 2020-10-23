@@ -1,19 +1,19 @@
-const _ = require('../configs/constrant')
+const _ = require('../configs/config')
 var options = {
   development: {
-    client: _.PG_CLIENT,
+    client: _.db.client,
     connection: {
-      host: DB_HOST,
-      user: _.PG_HOST,
-      password: _.PG_PASSWORD,
-      database: _.PG_DB,
+      host: _.db.host,
+      user: _.db.user,
+      password: _.db.password,
+      database: _.db.database,
       charset: 'utf8'
     },
     migrations: {
-      directory: __dirname + _.MIGRATIONS
+      directory: __dirname + _.server.migration
     },
     seeds: {
-      directory: __dirname + _.SEED
+      directory: __dirname + _.server.seed
     }
   }
 }

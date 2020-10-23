@@ -1,12 +1,12 @@
 'use strict'
-const _ = require('../../configs/constrant')
+const _ = require('../../configs/config')
 const knex = require('../../knexfile');
 require('dotenv').config()
 
-exports.seed = function (knex) {
-  return knex(_.TBL_USERS).del()
+exports.seed = (knex) => {
+  return knex(_.users.name).del()
     .then(function () {
-      return knex(_.TBL_USERS).insert([
+      return knex(_.users.name).insert([
         {
           username: 'admin',
           password: '123',
@@ -28,7 +28,7 @@ exports.seed = function (knex) {
           password: '123',
         },
         {
-          username: 'saler',
+          username: 'seller',
           password: '3211',
         }
       ])

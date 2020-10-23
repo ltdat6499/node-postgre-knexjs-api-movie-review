@@ -1,14 +1,14 @@
-const _ = require('../configs/constrant')
+const _ = require('../configs/config')
 const db = require('../configs/database-connect')
-const todos = () => db(_.TBL_TODOS)
+const todos = () => db(_.todo.name)
 
 const getAll = async (ctx) => {
     console.log(ctx)
     ctx.body = await
         todos()
             .select()
-            .orderBy(_.PRIMARY_KEY)
-            console.log(ctx.body)
+            .orderBy('id')
+    console.log(ctx.body)
 }
 const create = async (ctx) => {
     const { message } = ctx.request.body
@@ -21,7 +21,7 @@ const update = async (ctx) => {
     const id = ctx.request.params.id
     const todo = await
         todos()
-            .select(_.PRIMARY_KEY)
+            .select('id')
             .where({ id }).first()
     if (!todo) {
         return ctx.body = 'Error';
@@ -41,5 +41,5 @@ const del = async (ctx) => {
 }
 
 module.exports = {
-    getAll, create, update, delete:del
+    getAll, create, update, delete: del
 }

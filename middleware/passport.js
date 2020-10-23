@@ -1,14 +1,13 @@
 const jwtToken = require('jsonwebtoken')
-const _ = require('../configs/constrant')
+const _ = require('../configs/config')
 
-module.exports = async (ctx, next) => {
-    let typeOfAuth = typeof ctx.request.headers.authorization
-    let auth = ctx.request.headers.authorization
+exports.jwtPassport = async (ctx, next) => {
+    const typeOfAuth = typeof ctx.request.headers.authorization
+    const auth = ctx.request.headers.authorization
     if (typeOfAuth !== "undefined") {
-        let token = auth.split(" ")[1]
+        const token = auth.split(" ")[1]
         try {
-            const isAuth = await jwtToken.verify(token, _.JWT_KEY, { algorithm: "HS256" })
-            await next()
+            await jwtToken.verify(token, _.jwtKey, { algorithm: "HS256" })
         }
         catch (error) {
             ctx.status = 403
@@ -16,6 +15,7 @@ module.exports = async (ctx, next) => {
                 message: 'Error token'
             }
         }
+        await next()
     } else {
         ctx.status = 401
         ctx.body = {

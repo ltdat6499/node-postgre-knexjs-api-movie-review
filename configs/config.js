@@ -1,28 +1,31 @@
 require('dotenv').config()
 
 module.exports = {
-    PG_CLIENT, PG_USER, PG_PASSWORD,
-    PG_DB, PG_HOST, PG_PORT,
-    JWT_KEY, PRIMARY_KEY, TBL_TODOS,
-    TBL_USERS, SV_PORT, MIGRATIONS,
-    SEED
-} = process.env
+    db: {
+        client: 'pg',
+        user: 'postgres',
+        password: '123456',
+        database: 'todo',
+        host: '127.0.0.1',
+        port: 5432
+    },
+    jwtKey: 'ThisIsASecretKey',
+    server: {
+        port: 3000,
+        migration: '/db/migrations/',
+        seed: '/db/seeds/'
+    },
+    books: {
+        name: 'books'
+    },
+    authors: {
+        name: 'authors'
+    },
+    users: {
+        name: 'users'
+    },
+    todo: {
+        name: 'todos'
+    }
 
-// const config = {
-//     db: {
-//         client: PG_CLIENT,
-//         user: PG_USER,
-//         password: PG_PASSWORD,
-//         db: PG_DB,
-//         host: PG_HOST,
-//         port: PG_PORT
-//     },
-//     jwtKey: JWT_KEY,
-//     server: {
-//         port: SV_PORT,
-//         migration: MIGRATIONS,
-//         seed: SEED
-//     }
-// }
-
-// module.exports = config
+}

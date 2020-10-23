@@ -1,11 +1,8 @@
 const Router = require('koa-router')
-const _ = require('../controllers/users')
+const router = new Router({ prefix: '/todo' })
+const _ = require('../controllers/todo')
 const passport = require('../middleware/passport')
 
-
-const router = new Router({ prefix: '/users' })
-
-router.post('/login', _.login)
 router.get("/", passport.jwtPassport, _.getAll)
 router.post("/create", passport.jwtPassport, _.create)
 router.post("/update/:id", passport.jwtPassport, _.update)

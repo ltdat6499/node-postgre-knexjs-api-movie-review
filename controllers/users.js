@@ -1,7 +1,7 @@
 const jwtToken = require('jsonwebtoken')
-const _ = require('../configs/constrant')
+const _ = require('../configs/config')
 const db = require('../configs/database-connect')
-const users = () => db(_.TBL_USERS)
+const users = () => db(_.users.name)
 
 const login = async (ctx) => {
     const { username, password } = ctx.request.body
@@ -13,17 +13,13 @@ const login = async (ctx) => {
             .first()
     if (!resultId) {
         ctx.status = 401
-        ctx.body.message = "...Authentication failed"
+        return ctx.body.message = "...Authentication failed"
     }
     ctx.status = 200
-    console.log(jwtToken.sign(
-        { "myPayload": "myPayload" },
-        'fakecode',
-        { algorithm: "HS256" }))
-    return ctx.body = {
+    ctx.body = {
         token: jwtToken.sign(
-            { "myPayload": "myPayload" },
-            _.JWT_KEY,
+            { 'id': resultId },
+            _.jwtKey,
             { algorithm: "HS256" }),
         message: "Successfully logged in!"
     }
@@ -32,7 +28,7 @@ const getAll = async (ctx) => {
     ctx.body = await
         users()
             .select()
-            .orderBy(_.PRIMARY_KEY)
+            .orderBy('id')
 }
 const create = async (ctx) => {
     const { username, password } = ctx.request.body
@@ -45,8 +41,9 @@ const update = async (ctx) => {
     const id = ctx.request.params.id
     const user = await
         users()
-            .select(_.PRIMARY_KEY)
-            .where({ id }).first()
+            .select('id')
+            .where({ id })
+            .first()
     if (!user) {
         return ctx.body = 'Error';
     }
@@ -64,6 +61,10 @@ const del = async (ctx) => {
             .delete()
 }
 
-module.exports = { 
-    login, getAll, create, update, delete: del 
+module.exports = {
+    login,
+    getAll,
+    create,
+    update,
+    delete: del
 }

@@ -9,7 +9,7 @@ exports.up = async function (knex) {
 
 };
 
-exports.down = async function (knex) {
+exports.down = async (knex) => {
     await knex.raw(`
     DROP TABLE users
 `)
