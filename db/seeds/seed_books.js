@@ -7,36 +7,14 @@ exports.seed = (knex) => {
     return knex(_.books.name).del()
         .then(() => {
             return knex(_.books.name).insert([
-                {
-                    name: 'go to store for milk1',
-                    genre: 'mis',
-                    info: 'go to store for milk',
-                },
-                {
-                    name: 'go to store for milk2',
-                    genre: 'act',
-                    info: 'go to store for milk',
-                },
-                {
-                    name: 'go to store for milk3',
-                    genre: 'sic',
-                    info: 'go to store for milk',
-                },
-                {
-                    name: 'go to store for milk4',
-                    genre: 'tec',
-                    info: 'go to store for milk',
-                },
-                {
-                    name: 'go to store for milk5',
-                    genre: 'mus',
-                    info: 'go to store for milk',
-                },
-                {
-                    name: 'go to store for milk6',
-                    genre: 'hor',
-                    info: 'go to store for milk',
-                },
+                { id: 1, name: 'Harry Potter and the Chamber of Secrets', genre: 'fiction', authorid: 1 },
+                { id: 2, name: 'Harry Potter and the Prisoner of Azkaban', genre: 'action', authorid: 1 },
+                { id: 3, name: 'Harry Potter and the Goblet of Fire', genre: 'action', authorid: 1 },
+                { id: 4, name: 'The Fellowship of the Ring', genre: 'action', authorid: 2 },
+                { id: 5, name: 'The Two Towers', genre: 'action', authorid: 2 },
+                { id: 6, name: 'The Return of the King', genre: 'action', authorid: 2 },
+                { id: 7, name: 'The Way of Shadows', genre: 'action', authorid: 3 },
+                { id: 8, name: 'Beyond the Shadows', genre: 'action', authorid: 3 }
             ])
         })
 }

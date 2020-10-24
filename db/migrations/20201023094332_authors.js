@@ -4,8 +4,7 @@ exports.up = async (knex) => {
         CREATE TABLE authors (
             id serial PRIMARY KEY,
             name VARCHAR ( 100 ) NOT NULL,
-            age INT NOT NULL DEFAULT 1,
-            bookId text[]
+            age INT NOT NULL DEFAULT 1
         )`
     )
 };
