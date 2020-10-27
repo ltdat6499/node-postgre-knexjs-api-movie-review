@@ -13,10 +13,10 @@ module.exports = new GraphQLObjectType({
   name: "Book",
   description: "This represents a book written by an author",
   fields: () => ({
-    id: { type: GraphQLInt },
-    name: { type: GraphQLString },
-    authorid: { type: GraphQLInt },
-    genre: { type: GraphQLString },
+    id: { type: GraphQLNonNull(GraphQLInt) },
+    name: { type: GraphQLNonNull(GraphQLString) },
+    authorid: { type: GraphQLNonNull(GraphQLInt) },
+    genre: { type: GraphQLNonNull(GraphQLString) },
     author: {
       type: authorType,
       resolve: async (parent) => {

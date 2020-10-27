@@ -1,9 +1,9 @@
+const { GraphQLString, GraphQLInt, GraphQLNonNull } = require("graphql");
+
 const db = require("../../configs/database-connect");
 const _ = require("../../configs/config");
 const BookType = require("../../models/books");
 const books = db(_.books.name);
-
-const { GraphQLString, GraphQLInt, GraphQLNonNull } = require("graphql");
 
 module.exports = {
   addBook: {
@@ -15,11 +15,12 @@ module.exports = {
       genre: { type: GraphQLNonNull(GraphQLString) },
     },
     resolve: async (parent, args, ctx, info) => {
+      const { name, genre, authorId } = args;
       const [result] = await books
         .insert({
-          name: args.name,
-          genre: args.genre,
-          authorid: args.authorId,
+          name,
+          genre,
+          authorid: authorId,
         })
         .returning("*");
       return result;

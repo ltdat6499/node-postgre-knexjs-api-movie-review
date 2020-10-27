@@ -4,7 +4,7 @@ const bodyParser = require("koa-bodyparser");
 const _ = require("./configs/config");
 const todoRouter = require("./routes/todo");
 const usersRouter = require("./routes/users");
-const graphql = require("./routes/schema");
+const graphql = require("./routes/graphql");
 
 const app = new Koa();
 

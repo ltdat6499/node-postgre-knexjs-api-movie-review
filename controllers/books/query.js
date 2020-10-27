@@ -12,7 +12,7 @@ module.exports = {
     args: {
       id: { type: GraphQLInt },
     },
-    resolve: async (args) => await books.where("id", args.id).first(),
+    resolve: async (args) => await books.where({ id: args.id }).first(),
   },
   books: {
     type: new GraphQLList(bookType),
