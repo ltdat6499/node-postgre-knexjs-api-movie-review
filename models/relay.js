@@ -1,3 +1,4 @@
+const graphql = require("graphql");
 const { makeExecutableSchema } = require("@graphql-tools/schema");
 const db = require("../configs/database-connect");
 const constant = require("../configs/config");
@@ -6,56 +7,74 @@ const books = () => db(constant.books.name);
 const authors = () => db(constant.authors.name);
 
 const typeDefs = `
-    type Book {
-        id: Int!
-        name: String
-        author_id: Int
-        genre: String
-        author: Author
-    }
-    
-    input BookInput {
-        name: String
-        genre: String
-        author_id: Int
-    }
-    
-    type BookOutput {
-        id: Int!
-        name: String
-        genre: String
-        author_id: Int
-    }
+type Book {
+  id: Int!
+  name: String
+  author_id: Int
+  genre: String
+  author: Author
+}
 
-    type Author {
-        id: Int!
-        name: String
-        age: Int
-        book: [Book]
-    }
-    
-    input AuthorInput {
-        name: String
-        age: Int
-    }
-    
-    type AuthorOutput {
-        id: Int!
-        name: String
-        age: Int
-    }
+input BookInput {
+  name: String
+  genre: String
+  author_id: Int
+}
 
-    type Query {
-        book(id: Int): Book
-        books: [Book]
-        author(id: Int): Author
-        authors: [Author]
-    }
+type BookOutput {
+  id: Int!
+  name: String
+  genre: String
+  author_id: Int
+}
 
-    type Mutation {
-        createBook(name: String!, genre: String, author_id: Int): BookOutput
-        createAuthor(name: String!, age: Int): AuthorOutput
-    }
+type BookConnection {
+  edges: [BookEdge]
+  totalCount: Int
+  pageInfo: PageInfo
+}
+
+type BookEdge {
+  node: Book
+  cursor: Int
+}
+
+type PageInfo {
+  hasNextPage: Boolean
+  hasPreviousPage: Boolean
+  startCursor: Int
+  endCursor: Int
+}
+
+type Author {
+  id: Int!
+  name: String
+  age: Int
+  book: [Book]
+}
+
+input AuthorInput {
+  name: String
+  age: Int
+}
+
+type AuthorOutput {
+  id: Int!
+  name: String
+  age: Int
+}
+
+type Query {
+  book(id: Int): Book
+  bookPage(first: Int, after: Int): BookConnection
+  author(id: Int): Author
+  authors: [Author]
+}
+
+type Mutation {
+  createBook(name: String!, genre: String, author_id: Int): BookOutput
+  createAuthor(name: String!, age: Int): AuthorOutput
+}
 `;
 
 const resolvers = {
@@ -74,10 +93,30 @@ const resolvers = {
         .select()
         .where({ id })
         .first(),
-    books: async () =>
-      await books()
+    bookPage: async (_, { first, after }) => {
+      const fullPage = await books()
         .select()
-        .orderBy("id", "asc"),
+        .orderBy("id", "asc")
+        .whereBetween("id", [after + 1, after + first]);
+      const edges = fullPage.map((item) => {
+        return {
+          node: item,
+        };
+      });
+      const [{ count }] = await books().count("*");
+      const totalCount = count;
+      const pageInfo = {
+        hasNextPage: first + after < count ? 1 : 0,
+        hasPreviousPage: after > 1 ? 1 : 0,
+        startCursor: after + 1,
+        endCursor: after + first,
+      };
+      return {
+        edges,
+        totalCount,
+        pageInfo,
+      };
+    },
   },
   Mutation: {
     createAuthor: async (_, { name, age }) => {
@@ -94,10 +133,10 @@ const resolvers = {
     },
   },
   Book: {
-    async author(book) {
+    async author(parent) {
       return await authors()
         .select()
-        .where("id", book.author_id)
+        .where("id", parent.author_id)
         .first();
     },
   },
@@ -109,6 +148,7 @@ const resolvers = {
         .orderBy("id", "asc");
     },
   },
+  BookConnection: {},
 };
 
 module.exports = makeExecutableSchema({
