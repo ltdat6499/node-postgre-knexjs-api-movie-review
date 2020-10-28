@@ -77,6 +77,40 @@ type Mutation {
 }
 `;
 
+async function pagnation(table, first, after) {
+  const [{ count }] = await db(table).count("*");
+  let fullPage = []
+  let isExist, index = after, counter = 0;
+  do{
+    index++
+    isExist = db(table)
+    .select()
+    .where('id', index).first();
+    if(isExist){
+      fullPage.push(isExist)
+      counter++
+    }
+  }
+  while(after < count && counter < first);
+    const edges = fullPage.map((item) => {
+      return {
+        node: item,
+      };
+    });
+  const totalCount = count;
+  const pageInfo = {
+    hasNextPage: first + after < count ? 1 : 0,
+    hasPreviousPage: after > 1 ? 1 : 0,
+    startCursor: after + 1,
+    endCursor: after + first,
+  };
+  return {
+    edges,
+    totalCount,
+    pageInfo,
+  };
+}
+
 const resolvers = {
   Query: {
     author: async (_, { id }) =>
@@ -93,30 +127,7 @@ const resolvers = {
         .select()
         .where({ id })
         .first(),
-    bookPage: async (_, { first, after }) => {
-      const fullPage = await books()
-        .select()
-        .orderBy("id", "asc")
-        .whereBetween("id", [after + 1, after + first]);
-      const edges = fullPage.map((item) => {
-        return {
-          node: item,
-        };
-      });
-      const [{ count }] = await books().count("*");
-      const totalCount = count;
-      const pageInfo = {
-        hasNextPage: first + after < count ? 1 : 0,
-        hasPreviousPage: after > 1 ? 1 : 0,
-        startCursor: after + 1,
-        endCursor: after + first,
-      };
-      return {
-        edges,
-        totalCount,
-        pageInfo,
-      };
-    },
+    bookPage: async (_, { first, after }) => pagnation('books', first, after),
   },
   Mutation: {
     createAuthor: async (_, { name, age }) => {
