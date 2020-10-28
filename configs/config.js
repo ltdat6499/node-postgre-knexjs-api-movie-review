@@ -14,18 +14,5 @@ module.exports = {
         port: 3000,
         migration: '/db/migrations/',
         seed: '/db/seeds/'
-    },
-    books: {
-        name: 'books'
-    },
-    authors: {
-        name: 'authors'
-    },
-    users: {
-        name: 'users'
-    },
-    todo: {
-        name: 'todos'
     }
-
 }
