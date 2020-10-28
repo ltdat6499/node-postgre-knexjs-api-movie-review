@@ -66,12 +66,7 @@ const resolvers = {
         .select()
         .where({ id })
         .first(),
-    authors: async () =>
-      console.log(
-        await db("books")
-          .select()
-          .where("id", 11)
-      ),
+    authorPage: async (_, { first, after }) => pagination("authors", first, after),
     book: async (_, { id }) =>
       await db("books")
         .select()

@@ -50,6 +50,17 @@ const author = `
         name: String
         age: Int
     }
+
+    type AuthorConnection {
+        edges: [AuthorEdge]
+        totalCount: Int
+        pageInfo: PageInfo
+    }
+
+    type AuthorEdge {
+        node: Author
+        cursor: Int
+    }
 `;
 
 const pageInfo = `
@@ -66,7 +77,7 @@ const query = `
         book(id: Int): Book
         bookPage(first: Int, after: Int): BookConnection
         author(id: Int): Author
-        authors: [Author]
+        authorPage(first: Int, after: Int): AuthorConnection
     }
 `;
 
