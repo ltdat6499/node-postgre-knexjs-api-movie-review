@@ -55,7 +55,9 @@ const pageInfo = `
 const query = `
     type Query {
         book(id: Int): Book
+        books: [Book]
         author(id: Int): Author
+        authors: [Author]
     }
     `;
 

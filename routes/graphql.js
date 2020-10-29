@@ -5,9 +5,13 @@ const router = new Router({ prefix: "/graphql" });
 
 router.all(
   "/",
-  koaGraphQL({
-    schema: executableSchema,
-    graphiql: true,
+  koaGraphQL(async ctx => {
+    return {
+      schema: executableSchema,
+      graphiql: true,
+      context: {},
+      debug: true,
+    }
   })
 );
 
