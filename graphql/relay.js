@@ -1,5 +1,4 @@
 const { makeExecutableSchema } = require("@graphql-tools/schema");
-const { as } = require("../configs/database-connect");
 const db = require("../configs/database-connect");
 const typeDefs = require("./type-def");
 
@@ -30,16 +29,17 @@ const hasPreviousPage = async (table, id, range) => {
   return false;
 };
 
-async function pagination(table, first, after) {
+const pagination = async (table, first, after) => {
   const [{ count }] = await db(table).count("*");
 
-  const edges = (
-    await db(table)
-      .select()
-      .whereRaw(` id > ${after} `)
-      .limit(first)
-  ).map((item) => {
+  const rawEdges = await db(table)
+    .select()
+    .whereRaw(`id > ?`, after)
+    .limit(first);
+
+  const edges = rawEdges.map((item) => {
     return {
+      cursor: item.id,
       node: item,
     };
   });
@@ -58,7 +58,7 @@ async function pagination(table, first, after) {
     totalCount: count,
     pageInfo,
   };
-}
+};
 
 const resolvers = {
   Query: {
@@ -106,7 +106,6 @@ const resolvers = {
         .orderBy("id", "asc");
     },
   },
-  BookConnection: {},
 };
 
 module.exports = makeExecutableSchema({
