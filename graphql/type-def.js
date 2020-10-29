@@ -20,18 +20,8 @@ const book = `
         author_id: Int
     }
 
-    type BookConnection {
-        edges: [BookEdge]
-        totalCount: Int
-        pageInfo: PageInfo
-    }
 
-    type BookEdge {
-        node: Book
-        cursor: Int
-    }
 `;
-
 const author = `
     type Author {
         id: Int!
@@ -51,18 +41,8 @@ const author = `
         age: Int
     }
 
-    type AuthorConnection {
-        edges: [AuthorEdge]
-        totalCount: Int
-        pageInfo: PageInfo
-    }
-
-    type AuthorEdge {
-        node: Author
-        cursor: Int
-    }
+    
 `;
-
 const pageInfo = `
     type PageInfo {
         hasNextPage: Boolean
@@ -75,11 +55,9 @@ const pageInfo = `
 const query = `
     type Query {
         book(id: Int): Book
-        bookPage(first: Int, after: Int): BookConnection
         author(id: Int): Author
-        authorPage(first: Int, after: Int): AuthorConnection
     }
-`;
+    `;
 
 const mutation = `
     type Mutation {

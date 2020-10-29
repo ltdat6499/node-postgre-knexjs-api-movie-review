@@ -11,9 +11,7 @@ const resolvers = {
         .select()
         .where({ id })
         .first(),
-    authorPage: async (_, { first, after }) => {},
     book: async (_, { id }) => {},
-    bookPage: async (_, { first, after }) => {},
   },
   Book: {
     async author(parent) {
