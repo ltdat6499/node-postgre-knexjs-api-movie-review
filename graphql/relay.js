@@ -3,31 +3,32 @@ const { as } = require("../configs/database-connect");
 const db = require("../configs/database-connect");
 const typeDefs = require("./type-def");
 
-async function getLastOfTable(table) {
+const getLastOfTable = async (table) => {
   return await db(table)
     .select()
     .orderBy("id", "desc")
     .first();
-}
+};
 
-async function countItemBeforeId(table, id) {
+const countItemBeforeId = async (table, id) => {
   return await db(table)
     .select()
     .count("*")
-    .whereRaw(` id < ${id}`);
-}
+    .whereRaw(`id < ?`, id);
+};
 
-async function hasNextPage(table, id) {
-  const lastId = (await getLastOfTable(table)).id;
-  if (lastId > id) return 1;
-  return 0;
-}
+const hasNextPage = async (table, id) => {
+  const lastRow = await getLastOfTable(table);
+  const lastId = lastRow.id;
+  if (lastId > id) return true;
+  return false;
+};
 
-async function hasPreviousPage(table, id, range) {
+const hasPreviousPage = async (table, id, range) => {
   const [{ count }] = await countItemBeforeId(table, id);
-  if (count >= range) return 1;
-  return 0;
-}
+  if (count >= range) return true;
+  return false;
+};
 
 async function pagination(table, first, after) {
   const [{ count }] = await db(table).count("*");
@@ -66,7 +67,8 @@ const resolvers = {
         .select()
         .where({ id })
         .first(),
-    authorPage: async (_, { first, after }) => pagination("authors", first, after),
+    authorPage: async (_, { first, after }) =>
+      pagination("authors", first, after),
     book: async (_, { id }) =>
       await db("books")
         .select()
