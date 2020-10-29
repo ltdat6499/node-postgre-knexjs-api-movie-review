@@ -88,4 +88,4 @@ const mutation = `
     }
 `;
 
-module.exports = book + author + pageInfo + query + mutation;
+module.exports = book + author + query;
