@@ -72,11 +72,9 @@ const pageInfo = `
 const query = `
     type Query {
         book(id: Int): Book
-        books: [Book]
+        books(first: Int, after: Int): BookConnection
         author(id: Int): Author
-        authors: [Author]
-        bookPage(first: Int, after: Int): BookConnection
-        authorPage(first: Int, after: Int): BookConnection
+        authors(first: Int, after: Int): AuthorConnection
     }
     `;
 
