@@ -1,0 +1,71 @@
+type Book {
+  id: Int!
+  name: String
+  author_id: Int
+  genre: String
+  author: Author
+}
+
+input BookInput {
+  name: String
+  genre: String
+  author_id: Int
+}
+
+type BookOutput {
+  id: Int!
+  name: String
+  genre: String
+  author_id: Int
+}
+
+type BookConnection {
+  edges: [BookEdge]
+  totalCount: Int
+  pageInfo: PageInfo
+}
+type BookEdge {
+  node: Book
+  cursor: Int
+}
+type Author {
+  id: Int!
+  name: String
+  age: Int
+  book: [Book]
+}
+
+input AuthorInput {
+  name: String
+  age: Int
+}
+
+type AuthorOutput {
+  id: Int!
+  name: String
+  age: Int
+}
+
+type AuthorConnection {
+  edges: [AuthorEdge]
+  totalCount: Int
+  pageInfo: PageInfo
+}
+type AuthorEdge {
+  node: Author
+  cursor: Int
+}
+
+type PageInfo {
+  hasNextPage: Boolean
+  hasPreviousPage: Boolean
+  startCursor: Int
+  endCursor: Int
+}
+
+type Query {
+  book(id: Int): Book
+  books(first: Int, after: Int): BookConnection
+  author(id: Int): Author
+  authors(first: Int, after: Int): AuthorConnection
+}

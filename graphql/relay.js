@@ -1,8 +1,12 @@
-const { makeExecutableSchema } = require("@graphql-tools/schema");
-const db = require("../configs/database-connect");
-const typeDefs = require("./type-def");
-const pagination = require("./pagination");
+const { loadSchemaSync } = require("@graphql-tools/load");
+const { GraphQLFileLoader } = require("@graphql-tools/graphql-file-loader");
+const { addResolversToSchema } = require("@graphql-tools/schema");
 const loaderAction = require("./loader-action");
+const pagination = require("./pagination");
+
+const schema = loadSchemaSync(__dirname + "/typedef.graphql", {
+  loaders: [new GraphQLFileLoader()],
+});
 
 const resolvers = {
   Query: {
@@ -20,7 +24,7 @@ const resolvers = {
   },
 };
 
-module.exports = makeExecutableSchema({
-  typeDefs,
+module.exports = addResolversToSchema({
+  schema,
   resolvers,
 });
