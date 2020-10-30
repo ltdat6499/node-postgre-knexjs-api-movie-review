@@ -1,17 +1,17 @@
 const koaGraphQL = require("koa-graphql");
 const Router = require("koa-router");
-const executableSchema = require("../graphql/relay");
+const executableSchema = require("../graphql/relay").makeExecutableSchema;
 const router = new Router({ prefix: "/graphql" });
 
 router.all(
   "/",
-  koaGraphQL(async ctx => {
+  koaGraphQL(async (ctx) => {
     return {
       schema: executableSchema,
       graphiql: true,
       context: {},
       debug: true,
-    }
+    };
   })
 );
 
