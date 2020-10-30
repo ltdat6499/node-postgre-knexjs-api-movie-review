@@ -30,13 +30,6 @@ const hasPreviousPage = async (table, id, range) => {
   return false;
 };
 
-const removeElement = (array, elem) => {
-  var index = array.indexOf(elem);
-  if (index > -1) {
-    array.splice(index, 1);
-  }
-};
-
 const pagination = async (table, first, after, res) => {
   const [{ count }] = await db(table).count("*");
 
@@ -46,18 +39,6 @@ const pagination = async (table, first, after, res) => {
       node: item,
     };
   });
-
-  let itemListRemove = [];
-
-  edges.forEach((edge) => {
-    itemListRemove.push(edge);
-  });
-
-  itemListRemove.forEach((item) => {
-    if (item.node.id <= after) removeElement(edges, item);
-  });
-
-  edges = edges.slice(0, first);
 
   const lastIdOfEdges = edges[edges.length - 1].node.id;
   const firstIdOfEdges = edges[0].node.id;
@@ -73,6 +54,28 @@ const pagination = async (table, first, after, res) => {
     totalCount: count,
     pageInfo,
   };
+};
+
+const removeElement = (array, elem) => {
+  var index = array.indexOf(elem);
+  if (index > -1) {
+    array.splice(index, 1);
+  }
+};
+
+const cutList = (res, first, after) => {
+  let itemListRemove = [];
+
+  res.forEach((res) => {
+    itemListRemove.push(res);
+  });
+
+  itemListRemove.forEach((item) => {
+    if (item.id <= after) removeElement(res, item);
+  });
+
+  res = res.slice(0, first);
+  return res;
 };
 
 const getLoaders = (table) => ({
@@ -96,6 +99,7 @@ const resolvers = {
     },
     authorPage: async (_, args, ctx) => {
       let idList = await db("authors").select("id");
+      idList = cutList(idList, args.first, args.after);
       idList = Object.keys(idList).map((key) => idList[key].id);
       const res = await getLoaders("authors").loader.load(idList);
 
@@ -113,6 +117,7 @@ const resolvers = {
     },
     bookPage: async (_, args, ctx) => {
       let idList = await db("books").select("id");
+      idList = cutList(idList, args.first, args.after);
       idList = Object.keys(idList).map((key) => idList[key].id);
       const res = await getLoaders("books").loader.load(idList);
 
