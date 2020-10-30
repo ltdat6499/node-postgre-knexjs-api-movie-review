@@ -21,6 +21,15 @@ const book = `
     }
 
 
+    type BookConnection {
+        edges: [BookEdge]
+        totalCount: Int
+        pageInfo: PageInfo
+    }
+    type BookEdge {
+        node: Book
+        cursor: Int
+    }
 `;
 const author = `
     type Author {
@@ -41,7 +50,15 @@ const author = `
         age: Int
     }
 
-    
+    type AuthorConnection {
+        edges: [AuthorEdge]
+        totalCount: Int
+        pageInfo: PageInfo
+    }
+    type AuthorEdge {
+        node: Author
+        cursor: Int
+    }
 `;
 const pageInfo = `
     type PageInfo {
@@ -58,6 +75,8 @@ const query = `
         books: [Book]
         author(id: Int): Author
         authors: [Author]
+        bookPage(first: Int, after: Int): BookConnection
+        authorPage(first: Int, after: Int): BookConnection
     }
     `;
 
@@ -68,4 +87,4 @@ const mutation = `
     }
 `;
 
-module.exports = book + author + query;
+module.exports = book + author + query + pageInfo;

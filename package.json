@@ -20,6 +20,7 @@
   "dependencies": {
     "@graphql-tools/schema": "^7.0.0",
     "@koa/cors": "^3.1.0",
+    "apollo-cursor-pagination": "^0.8.0",
     "apollo-server-koa": "^2.18.2",
     "axios": "^0.21.0",
     "babel": "^6.23.0",
