@@ -4,9 +4,9 @@ const knex = require('../../knexfile');
 require('dotenv').config()
 
 exports.seed = (knex) => {
-    return knex(_.books.name).del()
+    return knex('books').del()
         .then(() => {
-            return knex(_.books.name).insert([
+            return knex('books').insert([
                 { id: 1, name: 'Harry Potter and the Chamber of Secrets', genre: 'fiction', author_id: 1 },
                 { id: 2, name: 'Harry Potter and the Prisoner of Azkaban', genre: 'action', author_id: 1 },
                 { id: 3, name: 'Harry Potter and the Goblet of Fire', genre: 'action', author_id: 1 },
