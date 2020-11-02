@@ -23,11 +23,11 @@ const resolvers = {
         return  pagination("authors", args)
     },
     book: async (_, args, ctx) => {
-      if (await isPass(ctx, 1) || await isPass(ctx, 2)) 
+      if (await isPass(ctx, 3) || await isPass(ctx, 1)) 
         return loaderAction.loadOneRow("books", args.id)
     },
     books: async (_, args, ctx) => {
-      if (await isPass(ctx, 1) || await isPass(ctx, 2)) 
+      if (await isPass(ctx, 3) || await isPass(ctx, 1)) 
         return pagination("books", args)
     }, 
     login: async (_, args, ctx) => {
