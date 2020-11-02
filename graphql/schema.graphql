@@ -8,7 +8,7 @@ type Book {
 
 input BookInput {
   name: String!
-  genre: String
+  genre: String!
   authorId: Int!
 }
 
@@ -58,9 +58,14 @@ type Query {
   books(first: Int, after: Int): BookConnection
   author(id: Int): Author
   authors(first: Int, after: Int): AuthorConnection
+  login(username: String, password: String): UserOutput
 }
 
-type user{
-  name: String
-  authorId: Int
+type User{
+  username: String!
+  password: String!
+}
+
+type UserOutput {
+  jwt: String!
 }
