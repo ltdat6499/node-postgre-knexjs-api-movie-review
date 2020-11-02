@@ -1,22 +1,15 @@
 type Book {
   id: Int!
   name: String
-  author_id: Int
+  authorId: Int
   genre: String
   author: Author
 }
 
 input BookInput {
-  name: String
+  name: String!
   genre: String
-  author_id: Int
-}
-
-type BookOutput {
-  id: Int!
-  name: String
-  genre: String
-  author_id: Int
+  authorId: Int!
 }
 
 type BookConnection {
@@ -24,10 +17,12 @@ type BookConnection {
   totalCount: Int
   pageInfo: PageInfo
 }
+
 type BookEdge {
   node: Book
   cursor: Int
 }
+
 type Author {
   id: Int!
   name: String
@@ -40,17 +35,12 @@ input AuthorInput {
   age: Int
 }
 
-type AuthorOutput {
-  id: Int!
-  name: String
-  age: Int
-}
-
 type AuthorConnection {
   edges: [AuthorEdge]
   totalCount: Int
   pageInfo: PageInfo
 }
+
 type AuthorEdge {
   node: Author
   cursor: Int

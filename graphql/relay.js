@@ -4,7 +4,7 @@ const { addResolversToSchema } = require("@graphql-tools/schema");
 const loaderAction = require("./loader-action");
 const pagination = require("./pagination");
 
-const schema = loadSchemaSync(__dirname + "/typedef.graphql", {
+const schema = loadSchemaSync(__dirname + "/schema.graphql", {
   loaders: [new GraphQLFileLoader()],
 });
 
@@ -16,11 +16,15 @@ const resolvers = {
     books: async (_, args, ctx) => pagination("books", args),
   },
   Book: {
+    authorId: (parent) => parent.author_id,
     author: async (parent) => loaderAction.loadOneRow("authors", parent.id),
   },
   Author: {
-    book: async (parent) =>
-      loaderAction.loadManyRowByParentId("books", parent.id, "author_id"),
+    book: async (parent) => loaderAction.loadManyRowByParentId(
+      "books",
+      parent.id,
+      "author_id"
+    ),
   },
 };
 

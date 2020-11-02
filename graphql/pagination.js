@@ -1,6 +1,19 @@
 const db = require("../configs/database-connect");
-const pageAction = require("./page-action");
 const dataloader = require("./dataloader");
+
+exports.hasNextPage = async (table, id) => {
+  const lastRow = await dbAction.getLastOfTable(table);
+  const lastId = lastRow.id;
+  if (lastId > id) return true;
+  return false;
+};
+
+exports.hasPreviousPage = async (table, id, range) => {
+  const [{ count }] = await dbAction.countItemBeforeId(table, id);
+  if (count >= range) return true;
+  return false;
+};
+
 
 const pagination = async (table, first, preCount, res) => {
   const [{ count }] = preCount;
@@ -15,8 +28,8 @@ const pagination = async (table, first, preCount, res) => {
   const lastIdOfEdges = edges[edges.length - 1].node.id;
   const firstIdOfEdges = edges[0].node.id;
   const pageInfo = {
-    hasNextPage: pageAction.hasNextPage(table, lastIdOfEdges),
-    hasPreviousPage: pageAction.hasPreviousPage(table, firstIdOfEdges, first),
+    hasNextPage: hasNextPage(table, lastIdOfEdges),
+    hasPreviousPage: hasPreviousPage(table, firstIdOfEdges, first),
     startCursor: firstIdOfEdges,
     endCursor: lastIdOfEdges,
   };
