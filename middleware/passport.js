@@ -8,10 +8,11 @@ module.exports = async (ctx, role) => {
     const token = auth.split(" ")[1];
     try {
       switch (role) {
-        case 1:
+        case 1: {
           return await jwtToken.verify(token, config.jwtKey.admin, {
             algorithm: "HS256",
           });
+        }
         case 2:
           return await jwtToken.verify(token, config.jwtKey.manager, {
             algorithm: "HS256",
@@ -24,15 +25,19 @@ module.exports = async (ctx, role) => {
           return await jwtToken.verify(token, config.jwtKey.user, {
             algorithm: "HS256",
           });
-        default:
-          return false;
+        default: {
+          ctx.status = 403;
+          ctx.throw("Token Error");
+        }
       }
     } catch (error) {
       ctx.status = 403;
+      ctx.throw("Token Error");
       return false;
     }
   } else {
     ctx.status = 401;
+    ctx.throw("Token Undefined");
     return false;
   }
 };

@@ -9,7 +9,6 @@ router.all(
     return {
       schema: executableSchema,
       graphiql: true,
-      context: ctx,
       debug: true,
     };
   })
