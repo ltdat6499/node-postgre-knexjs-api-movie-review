@@ -32,6 +32,8 @@
     "graphql-import": "^1.0.2",
     "graphql-relay": "^0.6.0",
     "graphql-sequelize": "^9.4.0",
+    "join-monster": "^2.1.2",
+    "join-monster-graphql-tools-adapter": "^0.1.0",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.21.7",
     "koa": "^2.13.0",
@@ -46,6 +48,9 @@
     "yarn": "^1.22.10"
   },
   "devDependencies": {
-    "nodemon": "^2.0.6"
+    "nodemon": "^2.0.6" 
+  },
+  "nodemonConfig": {
+    "ext": "js, ts, graphql, json, gql"
   }
 }

@@ -1,4 +1,5 @@
 const jwtToken = require("jsonwebtoken");
+const joinMonsterAdapter = require("join-monster-graphql-tools-adapter");
 const { loadSchemaSync } = require("@graphql-tools/load");
 const { GraphQLFileLoader } = require("@graphql-tools/graphql-file-loader");
 const { addResolversToSchema } = require("@graphql-tools/schema");
@@ -6,30 +7,34 @@ const db = require("../configs/database-connect");
 const config = require("../configs/config");
 const isPass = require("../middleware/passport");
 const loaderAction = require("./loader-action");
-const pagination = require("./pagination");
-
+const joinMonster = require("join-monster").default;
 const schema = loadSchemaSync(__dirname + "/schema.graphql", {
   loaders: [new GraphQLFileLoader()],
 });
 
+const option = { dialect: "pg" };
+
 const resolvers = {
   Query: {
     author: async (_, args, ctx) => {
-      if (await isPass(ctx, 1) || await isPass(ctx, 2)) 
+      if ((await isPass(ctx, 1)) || (await isPass(ctx, 2)))
         return loaderAction.loadOneRow("authors", args.id);
     },
-    authors: async (_, args, ctx) =>{
-      if (await isPass(ctx, 1) || await isPass(ctx, 2)) 
-        return  pagination("authors", args)
+    authors: (parent, args, ctx, resolveInfo) => {
+      return joinMonster(
+        resolveInfo,
+        ctx,
+        async (sql) => {
+          return await db.raw(sql);
+        },
+        option
+      );
     },
     book: async (_, args, ctx) => {
-      if (await isPass(ctx, 3) || await isPass(ctx, 1)) 
-        return loaderAction.loadOneRow("books", args.id)
+      if ((await isPass(ctx, 3)) || (await isPass(ctx, 1)))
+        return loaderAction.loadOneRow("books", args.id);
     },
-    books: async (_, args, ctx) => {
-      if (await isPass(ctx, 3) || await isPass(ctx, 1)) 
-        return pagination("books", args)
-    }, 
+    books: async (_, args, ctx) => {},
     login: async (_, args, ctx) => {
       const username = args.username;
       const password = args.password;
@@ -79,7 +84,62 @@ const resolvers = {
   },
 };
 
-module.exports = addResolversToSchema({
+const resultSchema = addResolversToSchema({
   schema,
   resolvers,
 });
+
+joinMonsterAdapter(resultSchema, {
+  Query: {
+    fields: {
+      authors: {
+        sqlTable: "authors",
+        sqlPaginate: true,
+        orderBy: {
+          id: "desc",
+        },
+      },
+    },
+  },
+  Book: {
+    sqlTable: "books",
+    uniqueKey: "id",
+    fields: {
+      genre: {
+        sqlColumn: "genre",
+      },
+      name: {
+        sqlColumn: "name",
+      },
+      authorId: {
+        sqlColumn: "author_id",
+      },
+      author: {
+        sqlBatch: {
+          thisKey: "id",
+          parentKey: "author_id",
+        },
+      },
+    },
+  },
+  Author: {
+    sqlTable: "authors",
+    uniqueKey: "id",
+    fields: {
+      name: {
+        sqlColumn: "name",
+      },
+      age: {
+        sqlColumn: "age",
+      },
+      book: {
+        sqlBatch: {
+          thisKey: "author_id",
+          parentKey: "id",
+        },
+      },
+    },
+  },
+});
+
+module.exports = resultSchema;

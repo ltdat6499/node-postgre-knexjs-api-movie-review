@@ -20,7 +20,7 @@ type BookConnection {
 
 type BookEdge {
   node: Book
-  cursor: Int
+  cursor: String!
 }
 
 type Author {
@@ -43,25 +43,25 @@ type AuthorConnection {
 
 type AuthorEdge {
   node: Author
-  cursor: Int
+  cursor: String!
 }
 
 type PageInfo {
-  hasNextPage: Boolean
-  hasPreviousPage: Boolean
-  startCursor: Int
-  endCursor: Int
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String!
+  endCursor: String!
 }
 
 type Query {
   book(id: Int): Book
   books(first: Int, after: Int): BookConnection
   author(id: Int): Author
-  authors(first: Int, after: Int): AuthorConnection
+  authors(first: Int, after: String): AuthorConnection
   login(username: String, password: String): UserOutput
 }
 
-type User{
+type User {
   username: String!
   password: String!
 }
