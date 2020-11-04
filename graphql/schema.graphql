@@ -6,12 +6,6 @@ type Book {
   author: Author
 }
 
-input BookInput {
-  name: String!
-  genre: String!
-  authorId: Int!
-}
-
 type BookConnection {
   edges: [BookEdge]
   totalCount: Int
@@ -28,11 +22,6 @@ type Author {
   name: String
   age: Int
   book: [Book]
-}
-
-input AuthorInput {
-  name: String
-  age: Int
 }
 
 type AuthorConnection {
@@ -55,10 +44,10 @@ type PageInfo {
 
 type Query {
   book(id: Int): Book
-  books(first: Int, after: Int): BookConnection
+  books(first: Int, after: String): BookConnection
   author(id: Int): Author
   authors(first: Int, after: String): AuthorConnection
-  login(username: String, password: String): UserOutput
+  login(username: String, password: String): UserConnection
 }
 
 type User {
@@ -66,6 +55,7 @@ type User {
   password: String!
 }
 
-type UserOutput {
+type UserConnection {
+  message: String!
   jwt: String!
 }

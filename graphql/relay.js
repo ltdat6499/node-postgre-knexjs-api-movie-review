@@ -8,45 +8,53 @@ const config = require("../configs/config");
 const isPass = require("../middleware/passport");
 const loaderAction = require("./loader-action");
 const joinMonster = require("join-monster").default;
+
 const schema = loadSchemaSync(__dirname + "/schema.graphql", {
   loaders: [new GraphQLFileLoader()],
 });
 
 const option = { dialect: "pg" };
 
+const jm = (parent, args, ctx, resolveInfo) =>
+  joinMonster(
+    resolveInfo,
+    ctx,
+    async (sql) => {
+      return await db.raw(sql);
+    },
+    option
+  );
+
 const resolvers = {
   Query: {
-    author: async (_, args, ctx) => {
+    author: async (parent, args, ctx, resolveInfo) => {
+      if ((await isPass(ctx, 1)) || (await isPass(ctx, 2))) 
+        return jm(parent, args, ctx, resolveInfo);
+    },
+    authors: async (parent, args, ctx, resolveInfo) => {
       if ((await isPass(ctx, 1)) || (await isPass(ctx, 2)))
-        return loaderAction.loadOneRow("authors", args.id);
+        return jm(parent, args, ctx, resolveInfo);
     },
-    authors: (parent, args, ctx, resolveInfo) => {
-      return joinMonster(
-        resolveInfo,
-        ctx,
-        async (sql) => {
-          return await db.raw(sql);
-        },
-        option
-      );
+    book: async (parent, args, ctx, resolveInfo) => {
+      if ((await isPass(ctx, 1)) || (await isPass(ctx, 3)))
+        return jm(parent, args, ctx, resolveInfo);
     },
-    book: async (_, args, ctx) => {
-      if ((await isPass(ctx, 3)) || (await isPass(ctx, 1)))
-        return loaderAction.loadOneRow("books", args.id);
+    books: async (parent, args, ctx, resolveInfo) => {
+      if ((await isPass(ctx, 1)) || (await isPass(ctx, 2)))
+        return jm(parent, args, ctx, resolveInfo);
     },
-    books: async (_, args, ctx) => {},
     login: async (_, args, ctx) => {
-      const username = args.username;
-      const password = args.password;
-      console.log(args);
+      const { username, password } = args;
       const result = await db("users")
         .select()
         .where({ username, password })
         .first();
-
       if (!result) {
         ctx.status = 401;
-        return (ctx.body.message = "Wrong username or password");
+        return {
+          message: "Wrong username or password",
+          jwt: "null",
+        };
       }
       let key;
       switch (result.role) {
@@ -63,7 +71,10 @@ const resolvers = {
           key = config.jwtKey.user;
           break;
         default:
-          return (ctx.body.message = "Hack ?");
+          return {
+            message: "Want to hack ?",
+            jwt: "null",
+          };
       }
       ctx.status = 200;
       return {
@@ -92,11 +103,30 @@ const resultSchema = addResolversToSchema({
 joinMonsterAdapter(resultSchema, {
   Query: {
     fields: {
+      book: {
+        where: (table, args) => `${table}.id = ${args.id}`,
+      },
+      author: {
+        where: (table, args) => `${table}.id = ${args.id}`,
+        book: {
+          sqlBatch: {
+            thisKey: "author_id",
+            parentKey: "id",
+          },
+        },
+      },
       authors: {
         sqlTable: "authors",
         sqlPaginate: true,
         orderBy: {
-          id: "desc",
+          id: "asc",
+        },
+      },
+      books: {
+        sqlTable: "books",
+        sqlPaginate: true,
+        orderBy: {
+          id: "asc",
         },
       },
     },
