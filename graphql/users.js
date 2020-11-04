@@ -1,6 +1,6 @@
 const jwtToken = require("jsonwebtoken");
-const config = require("../../configs/config");
-const db = require("../../configs/database-connect");
+const config = require("../configs/config");
+const db = require("../configs/database-connect");
 
 const resolvers = {
   Query: {

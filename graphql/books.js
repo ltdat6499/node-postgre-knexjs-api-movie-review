@@ -1,4 +1,4 @@
-const isPass = require("../../middleware/passport");
+const isPass = require("../middleware/passport");
 const jm = require("./join-monster");
 
 const resolvers = {
