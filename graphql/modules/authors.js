@@ -1,5 +1,4 @@
 const isPass = require("../../middleware/passport");
-const loaderAction = require("../loader-action");
 const jm = require("./join-monster");
 
 const resolvers = {
@@ -13,10 +12,6 @@ const resolvers = {
         return jm(parent, args, ctx, resolveInfo);
     },
   },
-  Author: {
-    book: async (parent) =>
-      loaderAction.loadManyRowByParentId("books", parent.id, "author_id"),
-  },
 };
 
 const jmDef = {
@@ -24,12 +19,6 @@ const jmDef = {
     fields: {
       author: {
         where: (table, args) => `${table}.id = ${args.id}`,
-        book: {
-          sqlBatch: {
-            thisKey: "author_id",
-            parentKey: "id",
-          },
-        },
       },
       authors: {
         sqlTable: "authors",
@@ -51,10 +40,8 @@ const jmDef = {
         sqlColumn: "age",
       },
       book: {
-        sqlBatch: {
-          thisKey: "author_id",
-          parentKey: "id",
-        },
+        sqlJoin: (authorTable, bookTable, args) =>
+          `${authorTable}.id = ${bookTable}.author_id`,
       },
     },
   },
