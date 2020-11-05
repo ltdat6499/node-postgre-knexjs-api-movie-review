@@ -50,5 +50,4 @@ const resolvers = {
 
 module.exports = {
   resolvers,
-  jmDef: null,
 };

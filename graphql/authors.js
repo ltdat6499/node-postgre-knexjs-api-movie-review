@@ -3,18 +3,14 @@ const jm = require("./join-monster");
 
 const resolvers = {
   Query: {
-    author: async (parent, args, ctx, resolveInfo) => {
-      if ((await isPass(ctx, 1)) || (await isPass(ctx, 2)))
-        return jm(parent, args, ctx, resolveInfo);
-    },
-    authors: async (parent, args, ctx, resolveInfo) => {
-      if ((await isPass(ctx, 1)) || (await isPass(ctx, 2)))
-        return jm(parent, args, ctx, resolveInfo);
-    },
+    author: async (parent, args, ctx, resolveInfo) =>
+      jm(parent, args, ctx, resolveInfo, 1),
+    authors: async (parent, args, ctx, resolveInfo) =>
+      jm(parent, args, ctx, resolveInfo, 1),
   },
 };
 
-const jmDef = {
+const jmDefs = {
   Query: {
     fields: {
       author: {
@@ -49,5 +45,5 @@ const jmDef = {
 
 module.exports = {
   resolvers,
-  jmDef,
+  jmDefs,
 };

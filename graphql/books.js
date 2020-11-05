@@ -1,20 +1,15 @@
-const isPass = require("../middleware/passport");
 const jm = require("./join-monster");
 
 const resolvers = {
   Query: {
-    book: async (parent, args, ctx, resolveInfo) => {
-      if ((await isPass(ctx, 1)) || (await isPass(ctx, 3)))
-        return jm(parent, args, ctx, resolveInfo);
-    },
-    books: async (parent, args, ctx, resolveInfo) => {
-      if ((await isPass(ctx, 1)) || (await isPass(ctx, 2)))
-        return jm(parent, args, ctx, resolveInfo);
-    },
+    book: async (parent, args, ctx, resolveInfo) =>
+      jm(parent, args, ctx, resolveInfo, 1),
+    books: async (parent, args, ctx, resolveInfo) =>
+      jm(parent, args, ctx, resolveInfo, 2),
   },
 };
 
-const jmDef = {
+const jmDefs = {
   Query: {
     fields: {
       book: {
@@ -52,5 +47,5 @@ const jmDef = {
 
 module.exports = {
   resolvers,
-  jmDef,
+  jmDefs,
 };
