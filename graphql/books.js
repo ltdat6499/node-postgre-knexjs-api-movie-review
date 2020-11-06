@@ -1,5 +1,6 @@
-const jm = require("./join-monster");
+const { globalIdField } = require("graphql-relay");
 
+const jm = require("./join-monster");
 const resolvers = {
   Query: {
     book: async (parent, args, ctx, resolveInfo) =>
@@ -25,9 +26,13 @@ const jmDefs = {
     },
   },
   Book: {
+    name: "Book",
     sqlTable: "books",
     uniqueKey: "id",
     fields: {
+      id: {
+        ...globalIdField("Book"),
+      },
       genre: {
         sqlColumn: "genre",
       },

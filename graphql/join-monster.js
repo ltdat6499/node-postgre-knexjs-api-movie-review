@@ -4,16 +4,8 @@ const isPass = require("../middleware/passport");
 const option = { dialect: "pg" };
 
 const jm = (parent, args, ctx, resolveInfo) =>
-  joinMonster(
-    resolveInfo,
-    ctx,
-    async (sql) => {
-      return await db.raw(sql);
-    },
-    option
-  );
+  joinMonster(resolveInfo, ctx, async (sql) => await db.raw(sql), option);
 
 module.exports = async (parent, args, ctx, resolveInfo, role) => {
-  if (await isPass(ctx, role))
-    return jm(parent, args, ctx, resolveInfo);
-}
+  if (await isPass(ctx, role)) return jm(parent, args, ctx, resolveInfo);
+};

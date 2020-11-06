@@ -1,4 +1,4 @@
-const isPass = require("../middleware/passport");
+const { globalIdField } = require("graphql-relay");
 const jm = require("./join-monster");
 
 const resolvers = {
@@ -26,16 +26,25 @@ const jmDefs = {
     },
   },
   Author: {
+    name: "Author",
     sqlTable: "authors",
     uniqueKey: "id",
+    type: "Author",
     fields: {
+      id: {
+        ...globalIdField("Author"),
+      },
       name: {
         sqlColumn: "name",
       },
       age: {
         sqlColumn: "age",
       },
-      book: {
+      books: {
+        orderBy: {
+          id: "asc",
+        },
+        sqlPaginate: true,
         sqlJoin: (authorTable, bookTable, args) =>
           `${authorTable}.id = ${bookTable}.author_id`,
       },

@@ -1,7 +1,16 @@
-type Book {
-  id: Int!
+type Query {
+  book(id: ID!): Book
+  books(first: Int, after: String): BookConnection
+  author(id: ID!): Author
+  authors(first: Int, after: String): AuthorConnection
+  login(username: String, password: String): UserConnection
+  node(id: ID!): Node
+}
+
+type Book implements Node {
+  id: ID!
   name: String
-  authorId: Int
+  authorId: ID!
   genre: String
   author: Author
 }
@@ -17,11 +26,11 @@ type BookEdge {
   cursor: String!
 }
 
-type Author {
-  id: Int!
+type Author implements Node {
+  id: ID!
   name: String
   age: Int
-  book: [Book]
+  books: BookConnection
 }
 
 type AuthorConnection {
@@ -42,15 +51,8 @@ type PageInfo {
   endCursor: String!
 }
 
-type Query {
-  book(id: Int): Book
-  books(first: Int, after: String): BookConnection
-  author(id: Int): Author
-  authors(first: Int, after: String): AuthorConnection
-  login(username: String, password: String): UserConnection
-}
-
-type User {
+type User implements Node {
+  id: ID!
   username: String!
   password: String!
 }
@@ -58,4 +60,8 @@ type User {
 type UserConnection {
   message: String!
   jwt: String!
+}
+
+interface Node {
+  id: ID!
 }
