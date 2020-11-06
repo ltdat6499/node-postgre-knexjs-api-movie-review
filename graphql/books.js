@@ -6,7 +6,7 @@ const resolvers = {
     book: async (parent, args, ctx, resolveInfo) =>
       jm(parent, args, ctx, resolveInfo, 1),
     books: async (parent, args, ctx, resolveInfo) =>
-      jm(parent, args, ctx, resolveInfo, 2),
+      jm(parent, args, ctx, resolveInfo, 1),
   },
 };
 
