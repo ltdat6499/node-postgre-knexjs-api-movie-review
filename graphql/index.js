@@ -9,7 +9,7 @@ const modules = [
   require("./authors"),
   require("./books"),
   require("./users"),
-  require("./nodes"),
+  require("./nodes")
 ];
 
 const mergeAll = (items) => _.reduce(items, _.merge);
@@ -19,5 +19,4 @@ const jmDefs = mergeAll(modules.map((m) => m.jmDefs));
 
 const schema = makeExecutableSchema({ typeDefs, resolvers });
 jmAdapt(schema, jmDefs);
-console.log("jmAdapt", typeDefs);
 module.exports = schema;

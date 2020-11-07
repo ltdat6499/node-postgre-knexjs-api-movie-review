@@ -1,14 +1,33 @@
-const { nodeField } = require("./node-define");
+const { fromGlobalId } = require("graphql-relay");
+
+const joinMonster = require("join-monster").default;
+
+const db = require("../configs/database-connect");
+
+const options = { dialect: "pg" };
 
 const resolvers = {
   Query: {
-    node: nodeField,
+    node: async (parent, args, ctx, resolveInfo) => {
+      const { type, id } = fromGlobalId(args.id);
+      return await joinMonster.getNode(
+        type,
+        resolveInfo,
+        ctx,
+        parseInt(id),
+        //(sql) => dbCall(sql, knex, context),
+        (sql) => db.raw(sql),
+        options
+      );
+    },
   },
   Node: {
-    __resolveType(node) {
-      return node.__type__;
+    __resolveType(obj) {
+      return obj.__type__
     },
   },
 };
 
-module.exports = { resolvers };
+module.exports = {
+  resolvers,
+};

@@ -1,5 +1,6 @@
 const { globalIdField } = require("graphql-relay");
 const jm = require("./join-monster");
+const { nodeInterface } = require("./node");
 
 const resolvers = {
   Query: {
@@ -49,6 +50,7 @@ const jmDefs = {
           `${authorTable}.id = ${bookTable}.author_id`,
       },
     },
+    resolveType: "Author",
   },
 };
 

@@ -1,13 +1,13 @@
-const koaGraphQL = require("koa-graphql");
+const graphqlHTTP = require("koa-graphql");
 const Router = require("koa-router");
-const executableSchema = require("../graphql/index");
+const MyGraphQLSchema = require("../graphql/index");
 const router = new Router({ prefix: "/graphql" });
 
 router.all(
   "/",
-  koaGraphQL(async (ctx) => {
+  graphqlHTTP(async (ctx) => {
     return {
-      schema: executableSchema,
+      schema: MyGraphQLSchema,
       graphiql: true,
     };
   })
