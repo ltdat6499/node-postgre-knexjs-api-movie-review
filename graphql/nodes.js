@@ -15,7 +15,6 @@ const resolvers = {
         resolveInfo,
         ctx,
         parseInt(id),
-        //(sql) => dbCall(sql, knex, context),
         (sql) => db.raw(sql),
         options
       );
