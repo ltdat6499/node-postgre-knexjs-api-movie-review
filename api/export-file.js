@@ -1,4 +1,3 @@
-var stream = require("koa-stream");
 const fs = require("fs");
 
 module.exports = async (ctx) => {
