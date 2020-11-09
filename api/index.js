@@ -94,7 +94,7 @@ const listMajors = (auth) => {
 
       if (rows.length) {
         let result = fs.createWriteStream("output.csv");
-        rows.map(async (row) => {
+        for (let row of rows) {
           await db("google_excel").insert({
             colection_id: row[2].toString(),
             published_at: row[0].toString(),
@@ -102,7 +102,8 @@ const listMajors = (auth) => {
             title: row[3].toString(),
             link: row[4].toString(),
           });
-        });
+        }
+
         rows.map((row) => {
           result.write(
             row[2].toString() +
