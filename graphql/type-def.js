@@ -78,11 +78,4 @@ const query = `
     }
     `;
 
-const mutation = `
-    type Mutation {
-        createBook(name: String!, genre: String, author_id: Int): BookOutput
-        createAuthor(name: String!, age: Int): AuthorOutput
-    }
-`;
-
 module.exports = book + author + query + pageInfo;
