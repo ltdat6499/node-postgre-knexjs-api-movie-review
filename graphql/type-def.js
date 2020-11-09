@@ -1,6 +1,6 @@
 const book = `
     type Book {
-        id: Int!
+        id: ID!
         name: String
         author_id: Int
         genre: String
@@ -14,7 +14,7 @@ const book = `
     }
 
     type BookOutput {
-        id: Int!
+        id: ID!
         name: String
         genre: String
         author_id: Int
@@ -30,10 +30,14 @@ const book = `
         node: Book
         cursor: Int
     }
+
+    interface Node {
+        id: ID!
+      }
 `;
 const author = `
     type Author {
-        id: Int!
+        id: ID!
         name: String
         age: Int
         book: [Book]
@@ -45,7 +49,7 @@ const author = `
     }
     
     type AuthorOutput {
-        id: Int!
+        id: ID!
         name: String
         age: Int
     }
@@ -71,10 +75,11 @@ const pageInfo = `
 
 const query = `
     type Query {
-        book(id: Int): Book
-        books(first: Int, after: Int): BookConnection
-        author(id: Int): Author
-        authors(first: Int, after: Int): AuthorConnection
+        book(id: ID!): Book
+        books(first: Int, after: String): BookConnection
+        author(id: ID!): Author
+        authors(first: Int, after: String): AuthorConnection
+        node(id: ID!): Node
     }
     `;
 
