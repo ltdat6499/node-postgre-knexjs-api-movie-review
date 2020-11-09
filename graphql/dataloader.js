@@ -7,6 +7,7 @@ const getLoaders = (table) => ({
       return await db(table).whereRaw(`id = ANY(?)`, [ids]);
     });
   }),
+  
 });
 
 module.exports = getLoaders;
