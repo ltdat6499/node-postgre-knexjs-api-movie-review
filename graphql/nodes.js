@@ -22,7 +22,7 @@ const resolvers = {
   },
   Node: {
     __resolveType(obj) {
-      return obj.__type__
+      return obj.__type__;
     },
   },
 };

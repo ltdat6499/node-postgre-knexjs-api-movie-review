@@ -81,7 +81,7 @@ const getNewToken = (oAuth2Client, callback) => {
  * @see https://docs.google.com/spreadsheets/d/19wtfNT8nXACdtOEnHUoCBEFWK2WDXvMK-Lkkx_N7HVY/edit#gid=1680047627
  * @param {google.auth.OAuth2} auth The authenticated Google OAuth client.
  */
-function listMajors(auth) {
+const listMajors = (auth) => {
   const sheets = google.sheets({ version: "v4", auth });
   sheets.spreadsheets.values.get(
     {
@@ -91,8 +91,9 @@ function listMajors(auth) {
     async (err, res) => {
       if (err) return console.log("The API returned an error: " + err);
       const rows = res.data.values;
-      
+
       if (rows.length) {
+        let result = fs.createWriteStream("output.csv");
         rows.map(async (row) => {
           await db("google_excel").insert({
             colection_id: row[2].toString(),
@@ -101,11 +102,26 @@ function listMajors(auth) {
             title: row[3].toString(),
             link: row[4].toString(),
           });
-
         });
+        rows.map((row) => {
+          result.write(
+            row[2].toString() +
+              "\t" +
+              row[0].toString() +
+              "\t" +
+              row[1].toString() +
+              "\t" +
+              row[3].toString() +
+              "\t" +
+              row[4].toString() +
+              "\n"
+          );
+        });
+        result.end();
+        result.on("finish", () => console.log("Done"));
       } else {
         console.log("The API returned an error: " + err);
       }
     }
   );
-}
+};
