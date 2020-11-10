@@ -1,25 +1,11 @@
 const book = `
-    type Book {
+    type Book implements Node{
         id: ID!
         name: String
         author_id: Int
         genre: String
         author: Author
     }
-
-    input BookInput {
-        name: String
-        genre: String
-        author_id: Int
-    }
-
-    type BookOutput {
-        id: ID!
-        name: String
-        genre: String
-        author_id: Int
-    }
-
 
     type BookConnection {
         edges: [BookEdge]
@@ -36,22 +22,11 @@ const book = `
       }
 `;
 const author = `
-    type Author {
+    type Author implements Node {
         id: ID!
         name: String
         age: Int
         book: [Book]
-    }
-    
-    input AuthorInput {
-        name: String
-        age: Int
-    }
-    
-    type AuthorOutput {
-        id: ID!
-        name: String
-        age: Int
     }
 
     type AuthorConnection {
@@ -76,9 +51,9 @@ const pageInfo = `
 const query = `
     type Query {
         book(id: ID!): Book
-        books(first: Int, after: String): BookConnection
+        books(first: Int, after: Int): BookConnection
         author(id: ID!): Author
-        authors(first: Int, after: String): AuthorConnection
+        authors(first: Int, after: Int): AuthorConnection
         node(id: ID!): Node
     }
     `;
