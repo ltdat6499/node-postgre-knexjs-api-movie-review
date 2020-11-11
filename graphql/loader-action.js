@@ -7,10 +7,9 @@ exports.loadOneRow = async (table, id) => {
 };
 
 exports.loadManyRowByParentId = async (table, parentId, conditionColumn) => {
-     let idList = await db(table)
+     const rs = await db(table)
           .select("id")
           .where(conditionColumn, parentId);
-     idList = Object.keys(idList).map((key) => idList[key].id);
-     const res = await dataloader(table).loader.load(idList);
-     return res;
+     const ids = rs.map((item) => item.id);
+     return await dataloader(table).loader.load(ids);
 };

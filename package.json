@@ -1,5 +1,5 @@
 {
-  "name": "postgre-knexjs-api-movie-review",
+  "name": "tvn-learning",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ltdat6499/node-postgre-knexjs-api-movie-review.git"
+    "url": "git+https://github.com/ltdat6499/tvn-learning.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ltdat6499/node-postgre-knexjs-api-movie-review/issues"
+    "url": "https://github.com/ltdat6499/tvn-learning/issues"
   },
-  "homepage": "https://github.com/ltdat6499/node-postgre-knexjs-api-movie-review#readme",
+  "homepage": "https://github.com/ltdat6499/tvn-learning/blob/master/README.md",
   "dependencies": {
     "@graphql-tools/schema": "^7.0.0",
     "apollo-cursor-pagination": "^0.8.0",

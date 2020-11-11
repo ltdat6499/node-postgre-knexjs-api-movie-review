@@ -14,7 +14,7 @@ const book = `
     }
     type BookEdge {
         node: Book
-        cursor: Int
+        cursor: String
     }
 
     interface Node {
@@ -36,7 +36,7 @@ const author = `
     }
     type AuthorEdge {
         node: Author
-        cursor: Int
+        cursor: String
     }
 `;
 const pageInfo = `
