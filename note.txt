@@ -1,0 +1,4 @@
+docker run --rm -it --network=host eg_postgresql
+docker run --rm -it --network=host tvn-learning
+psql -h localhost -p 5432 -d docker -U docker --password
+
