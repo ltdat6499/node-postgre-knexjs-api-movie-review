@@ -1,47 +1,48 @@
 {
-  "name": "tvn-learning",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ltdat6499/tvn-learning.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/ltdat6499/tvn-learning/issues"
-  },
-  "homepage": "https://github.com/ltdat6499/tvn-learning/blob/master/README.md",
-  "dependencies": {
-    "@graphql-tools/schema": "^7.0.0",
-    "apollo-cursor-pagination": "^0.8.0",
-    "apollo-server-koa": "^2.18.2",
-    "axios": "^0.21.0",
-    "babel": "^6.23.0",
-    "dataloader": "^2.0.0",
-    "dotenv": "^8.2.0",
-    "graphql": "^15.4.0",
-    "graphql-relay": "^0.6.0",
-    "graphql-sequelize": "^9.4.0",
-    "jsonwebtoken": "^8.5.1",
-    "knex": "^0.21.7",
-    "koa": "^2.13.0",
-    "koa-bodyparser": "^4.3.0",
-    "koa-graphiql": "^1.1.0",
-    "koa-graphql": "^0.8.0",
-    "koa-router": "^9.4.0",
-    "lodash": "^4.17.20",
-    "passport-jwt": "^4.0.0",
-    "pg": "^8.4.1",
-    "sequelize": "^6.3.5",
-    "yarn": "^1.22.10"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.6"
-  }
+     "name": "tvn-learning",
+     "version": "1.0.0",
+     "description": "",
+     "main": "index.js",
+     "scripts": {
+          "test": "echo \"Error: no test specified\" && exit 1",
+          "start": "nodemon index.js"
+     },
+     "repository": {
+          "type": "git",
+          "url": "git+https://github.com/ltdat6499/tvn-learning.git"
+     },
+     "author": "",
+     "license": "ISC",
+     "bugs": {
+          "url": "https://github.com/ltdat6499/tvn-learning/issues"
+     },
+     "homepage": "https://github.com/ltdat6499/tvn-learning/blob/master/README.md",
+     "dependencies": {
+          "@graphql-tools/schema": "^7.0.0",
+          "apollo-cursor-pagination": "^0.8.0",
+          "apollo-server-koa": "^2.18.2",
+          "axios": "^0.21.0",
+          "babel": "^6.23.0",
+          "bash": "0.0.1",
+          "dataloader": "^2.0.0",
+          "dotenv": "^8.2.0",
+          "graphql": "^15.4.0",
+          "graphql-relay": "^0.6.0",
+          "graphql-sequelize": "^9.4.0",
+          "jsonwebtoken": "^8.5.1",
+          "knex": "^0.21.7",
+          "koa": "^2.13.0",
+          "koa-bodyparser": "^4.3.0",
+          "koa-graphiql": "^1.1.0",
+          "koa-graphql": "^0.8.0",
+          "koa-router": "^9.4.0",
+          "lodash": "^4.17.20",
+          "passport-jwt": "^4.0.0",
+          "pg": "^8.4.1",
+          "sequelize": "^6.3.5",
+          "yarn": "^1.22.10"
+     },
+     "devDependencies": {
+          "nodemon": "^2.0.6"
+     }
 }

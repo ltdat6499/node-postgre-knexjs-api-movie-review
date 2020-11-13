@@ -6,3 +6,6 @@ docker run --rm -it --network=host tvn-learning
 
 psql -h localhost -p 5432 -d docker -U docker --password
 
+docker run --rm -it --network=host -v /home/ltdat6499/tvn-learning:/app tvn-learning
+
+sudo docker volume create -d local-persist -o mountpoint=/home/ltdat6499/tvn-learning/ --name=tvn-learning
