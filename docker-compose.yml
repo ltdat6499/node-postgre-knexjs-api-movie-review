@@ -17,6 +17,8 @@ services:
           container_name: app
           env_file:
                - database.env
+          volumes:
+               - /home/ltdat6499/tvn-learning:/app
           build:
                context: .
           ports:

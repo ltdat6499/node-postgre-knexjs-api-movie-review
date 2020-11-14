@@ -1,7 +1,7 @@
-FROM node:12.18.1
+FROM node
 EXPOSE 3000
 
-WORKDIR /home/ltdat6499/tvn-learning
+WORKDIR /app
 
 COPY ["package.json", "package-lock.json*", "./"]
 
