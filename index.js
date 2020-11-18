@@ -11,11 +11,11 @@ const app = new Koa();
 app.use(bodyParser());
 app.use(cors());
 
-app.use(todoRouter.routes());
+//app.use(todoRouter.routes());
 app.use(usersRouter.routes());
 
 app.use(graphql.routes()).use(graphql.allowedMethods());
 
 app.listen(_.server.port, () => {
-  console.log(`listening on port ${_.server.port}`);
+     console.log(`listening on port ${_.server.port}`);
 });
