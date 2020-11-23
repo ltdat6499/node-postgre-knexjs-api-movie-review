@@ -12,5 +12,5 @@ app.use(cors());
 app.use(graphql.routes()).use(graphql.allowedMethods());
 
 app.listen(config.server.port, () => {
-  console.log(`listening on port ${config.server.port}`);
+    console.log(`listening on port ${config.server.port}`);
 });

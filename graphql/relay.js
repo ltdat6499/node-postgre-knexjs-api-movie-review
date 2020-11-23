@@ -7,33 +7,69 @@ const config = require("../configs/config");
 const isPass = require("../middleware/passport");
 const loaderAction = require("./loader-action");
 const pagination = require("./pagination");
+const User = require("../acl");
 
 const schema = loadSchemaSync(__dirname + "/schema.graphql", {
   loaders: [new GraphQLFileLoader()],
 });
 
+const havePermissions = async (ctx, permis, next) => {
+  const typeOfAuth = await typeof ctx.headers.authorization;
+  const auth = await ctx.headers.authorization;
+  if (typeOfAuth == "undefined") {
+    ctx.response.status = 401;
+    ctx.throw("Hack?");
+  }
+  const token = auth.split(" ")[1];
+  let payload = jwtToken.verify(token, config.jwtKey.admin);
+  const id = payload.id;
+  const roles = await db("roles")
+    .select("role")
+    .where("user_id", id + "");
+  let user = new User();
+  for (const { role } of roles) {
+    const [resource, roles] = role.split(" ");
+    await user.setPermissions({
+      resource,
+      roles,
+    });
+  }
+  if (user.havePermissions(permis)) return await next();
+  ctx.response.status = 403;
+  ctx.throw("U dont have permission to read author");
+};
+
 const resolvers = {
   Query: {
     author: async (_, args, ctx) => {
-      if (await isPass(ctx, 1) || await isPass(ctx, 2)) 
-        return loaderAction.loadOneRow("authors", args.id);
+      return await havePermissions(
+        ctx,
+        { resource: "author", roles: "write" },
+        async () => {
+          console.log(await loaderAction.loadOneRow("authors", args.id));
+          return await loaderAction.loadOneRow("authors", args.id);
+        }
+      );
     },
-    authors: async (_, args, ctx) =>{
-      if (await isPass(ctx, 1) || await isPass(ctx, 2)) 
-        return  pagination("authors", args)
+    authors: async (_, args, ctx) => {
+      return await havePermissions(
+        ctx,
+        { resource: "book", roles: "write" },
+        async () => {
+          return pagination("authors", args);
+        }
+      );
     },
     book: async (_, args, ctx) => {
-      if (await isPass(ctx, 3) || await isPass(ctx, 1)) 
-        return loaderAction.loadOneRow("books", args.id)
+      return loaderAction.loadOneRow("books", args.id);
     },
     books: async (_, args, ctx) => {
-      if (await isPass(ctx, 3) || await isPass(ctx, 1)) 
-        return pagination("books", args)
-    }, 
+      if ((await isPass(ctx, 3)) || (await isPass(ctx, 1)))
+        return pagination("books", args);
+    },
     login: async (_, args, ctx) => {
       const username = args.username;
       const password = args.password;
-      console.log(args);
       const result = await db("users")
         .select()
         .where({ username, password })
@@ -41,7 +77,7 @@ const resolvers = {
 
       if (!result) {
         ctx.status = 401;
-        return (ctx.body.message = "Wrong username or password");
+        return (ctx.body = "Wrong username or password");
       }
       let key;
       switch (result.role) {

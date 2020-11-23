@@ -3,8 +3,8 @@ require("dotenv").config();
 module.exports = {
   db: {
     client: "pg",
-    user: "postgres",
-    password: "123456",
+    user: "docker",
+    password: "docker",
     database: "todo",
     host: "127.0.0.1",
     port: 5432,
