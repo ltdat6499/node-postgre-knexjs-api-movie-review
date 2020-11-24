@@ -22,6 +22,7 @@ const book = `
     id: ID!
   }
 `;
+
 const author = `
   type Author implements Node {
     id: ID!
@@ -41,6 +42,7 @@ const author = `
     cursor: String
   }
 `;
+
 const pageInfo = `
   type PageInfo {
     hasNextPage: Boolean
@@ -50,14 +52,28 @@ const pageInfo = `
   }
 `;
 
+const user = `
+  type User implements Node {
+    id: ID!
+    username: String!
+    password: String!
+  }
+
+  type UserConnection {
+    message: String!
+    jwt: String!
+  }
+`;
+
 const query = `
   type Query {
     book(id: ID!): Book
     books(first: Int, after: Int): BookConnection
     author(id: ID!): Author
     authors(first: Int, after: Int): AuthorConnection
+    login(username: String, password: String): UserConnection
     node(id: ID!): Node
   }
 `;
 
-module.exports = book + author + query + pageInfo;
+module.exports = book + author + query + pageInfo + user;

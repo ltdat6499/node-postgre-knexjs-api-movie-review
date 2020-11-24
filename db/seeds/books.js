@@ -1,5 +1,4 @@
 "use strict";
-const knex = require("../../knexfile");
 require("dotenv").config();
 
 exports.seed = (knex) => {

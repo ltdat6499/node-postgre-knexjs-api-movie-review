@@ -7,7 +7,7 @@ exports.jwtPassport = async (ctx, next) => {
   if (typeOfAuth !== "undefined") {
     const token = auth.split(" ")[1];
     try {
-      await jwtToken.verify(token, config.jwtKey, { algorithm: "HS256" });
+      await jwtToken.verify(token, config.jwtKey.admin, { algorithm: "HS256" });
     } catch (error) {
       ctx.status = 403;
       return (ctx.body = {
