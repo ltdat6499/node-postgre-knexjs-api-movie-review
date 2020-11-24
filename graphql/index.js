@@ -3,8 +3,8 @@ const jwtToken = require("jsonwebtoken");
 const { fromGlobalId } = require("graphql-relay");
 const db = require("../configs/database-connect");
 const acl = require("../middleware/check-permission");
-const config = require("../configs/config");
 const typeDefs = require("./type-def");
+const config = require("../configs/config");
 const pagination = require("./pagination");
 const loaderAction = require("./loader-action");
 
@@ -64,14 +64,8 @@ const resolvers = {
         case 1:
           key = config.jwtKey.admin;
           break;
-        case 2:
-          key = config.jwtKey.manager;
-          break;
-        case 3:
-          key = config.jwtKey.employee;
-          break;
         case 4:
-          key = config.jwtKey.admin;
+          key = config.jwtKey.user;
           break;
         default:
           return (ctx.body.message = "Hack ?");
@@ -103,4 +97,3 @@ module.exports = makeExecutableSchema({
   typeDefs,
   resolvers,
 });
-
