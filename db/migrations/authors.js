@@ -5,11 +5,11 @@ exports.up = async (knex) => {
         name VARCHAR ( 100 ) NOT NULL,
         age INT NOT NULL DEFAULT 1
     )
-    `);
+  `);
 };
 
 exports.down = async (knex) => {
   await knex.raw(`
     DROP TABLE authors
-    `);
+  `);
 };

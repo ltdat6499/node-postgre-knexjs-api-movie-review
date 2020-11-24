@@ -5,7 +5,7 @@ module.exports = {
     client: "pg",
     user: "docker",
     password: "docker",
-    database: "todo",
+    database: "book_store",
     host: "127.0.0.1",
     port: 5432,
   },
@@ -14,4 +14,5 @@ module.exports = {
     migration: "/db/migrations/",
     seed: "/db/seeds/",
   },
+  jwtKey: "MyKey",
 };

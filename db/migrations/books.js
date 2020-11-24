@@ -22,12 +22,12 @@ exports.up = async (knex) => {
     BEFORE INSERT OR UPDATE 
     ON books 
     FOR EACH ROW EXECUTE PROCEDURE set_update_date();
-    `);
+  `);
 };
 
 exports.down = async (knex) => {
   await knex.raw(`
     DROP TABLE books;
     DROP FUNCTION set_update_date();
-    `);
+  `);
 };
