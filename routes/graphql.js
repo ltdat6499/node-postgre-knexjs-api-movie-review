@@ -4,15 +4,15 @@ const executableSchema = require("../graphql/relay");
 const router = new Router({ prefix: "/graphql" });
 
 router.all(
-     "/",
-     koaGraphQL(async (ctx) => {
-          return {
-               schema: executableSchema,
-               graphiql: true,
-               context: {},
-               debug: true,
-          };
-     })
+  "/",
+  koaGraphQL(async (ctx) => {
+    return {
+      schema: executableSchema,
+      graphiql: true,
+      context: {},
+      debug: true,
+    };
+  })
 );
 
 module.exports = router;

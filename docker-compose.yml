@@ -1,28 +1,28 @@
 version: "3"
 services:
-     database:
-          image: "postgres"
-          env_file:
-               - database.env
-          container_name: postgres
-          restart: always
-          volumes:
-               - ./var/lib/postgresql/data/
-          ports:
-               - "5432:5432"
-          network_mode: "host"
-     web:
-          depends_on:
-               - database
-          container_name: app
-          env_file:
-               - database.env
-          volumes:
-               - /home/ltdat6499/tvn-learning:/app
-          build:
-               context: .
-          ports:
-               - "3000:3000"
-          network_mode: "host"
+  database:
+    image: "postgres"
+    env_file:
+      - database.env
+    container_name: postgres
+    restart: always
+    volumes:
+      - ./var/lib/postgresql/data/
+    ports:
+      - "5432:5432"
+    network_mode: "host"
+  web:
+    depends_on:
+      - database
+    container_name: app
+    env_file:
+      - database.env
+    volumes:
+      - /home/ltdat6499/tvn-learning:/app
+    build:
+      context: .
+    ports:
+      - "3000:3000"
+    network_mode: "host"
 volumes:
-     database_data:
+  database_data:

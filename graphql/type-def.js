@@ -1,61 +1,63 @@
 const book = `
-    type Book implements Node{
-        id: ID!
-        name: String
-        author_id: Int
-        genre: String
-        author: Author
-    }
+  type Book implements Node{
+    id: ID!
+    name: String
+    author_id: Int
+    genre: String
+    author: Author
+  }
 
-    type BookConnection {
-        edges: [BookEdge]
-        totalCount: Int
-        pageInfo: PageInfo
-    }
-    type BookEdge {
-        node: Book
-        cursor: String
-    }
+  type BookConnection {
+    edges: [BookEdge]
+    totalCount: Int
+    pageInfo: PageInfo
+  }
 
-    interface Node {
-        id: ID!
-      }
+  type BookEdge {
+    node: Book
+    cursor: String
+  }
+
+  interface Node {
+    id: ID!
+  }
 `;
 const author = `
-    type Author implements Node {
-        id: ID!
-        name: String
-        age: Int
-        book: [Book]
-    }
+  type Author implements Node {
+    id: ID!
+    name: String
+    age: Int
+    book: [Book]
+  }
 
-    type AuthorConnection {
-        edges: [AuthorEdge]
-        totalCount: Int
-        pageInfo: PageInfo
-    }
-    type AuthorEdge {
-        node: Author
-        cursor: String
-    }
+  type AuthorConnection {
+    edges: [AuthorEdge]
+    totalCount: Int
+    pageInfo: PageInfo
+  }
+
+  type AuthorEdge {
+    node: Author
+    cursor: String
+  }
 `;
 const pageInfo = `
-    type PageInfo {
-        hasNextPage: Boolean
-        hasPreviousPage: Boolean
-        startCursor: Int
-        endCursor: Int
-    }
+  type PageInfo {
+    hasNextPage: Boolean
+    hasPreviousPage: Boolean
+    startCursor: Int
+    endCursor: Int
+  }
 `;
 
 const query = `
-    type Query {
-        book(id: ID!): Book
-        books(first: Int, after: Int): BookConnection
-        author(id: ID!): Author
-        authors(first: Int, after: Int): AuthorConnection
-        node(id: ID!): Node
-    }
-    `;
+  type Query {
+    book(id: ID!): Book
+    books(first: Int, after: Int): BookConnection
+    author(id: ID!): Author
+    authors(first: Int, after: Int): AuthorConnection
+    node(id: ID!): Node
+  }
+`;
 
 module.exports = book + author + query + pageInfo;
